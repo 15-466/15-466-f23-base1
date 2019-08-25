@@ -15,6 +15,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <memory>
+#include <algorithm>
 
 int main(int argc, char **argv) {
 #ifdef _WIN32

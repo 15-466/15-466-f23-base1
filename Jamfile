@@ -4,19 +4,23 @@
 #You shouldn't need to change it.
 
 if $(OS) = NT { #Windows
-	C++FLAGS = /nologo /Z7 /c /EHsc /W3 /WX /MD /I"kit-libs-win/out/include" /I"kit-libs-win/out/include/SDL2" /I"kit-libs-win/out/libpng"
+	C++FLAGS = /nologo /Z7 /c /EHsc /W3 /WX /MD /I"../nest-libs/windows/SDL2/include" /I"../nest-libs/windows/glm/include"
 		#disable a few warnings:
 		/wd4146 #-1U is still unsigned
 		/wd4297 #unforunately SDLmain is nothrow
 	;
 	LINKFLAGS = /nologo /SUBSYSTEM:CONSOLE /DEBUG:FASTLINK
-		/LIBPATH:"kit-libs-win/out/lib"
+		/LIBPATH:"../nest-libs/windows/SDL2/lib"
 		/LIBPATH:"kit-libs-win/out/libpng"
 		/LIBPATH:"kit-libs-win/out/zlib"
 	;
-	LINKLIBS = SDL2main.lib SDL2.lib OpenGL32.lib libpng.lib zlib.lib ;
+	LINKLIBS =
+		SDL2main.lib SDL2.lib OpenGL32.lib
+		#libpng.lib zlib.lib
+	;
 
-	File dist\\SDL2.dll : kit-libs-win\\out\\dist\\SDL2.dll ;
+	File dist\\SDL2.dll : ..\\nest-libs\\windows\\SDL2\\dist\\SDL2.dll ;
+	File dist\\README-SDL.txt : ..\\nest-libs\\windows\\SDL2\\dist\\README-SDL.txt ;
 } else if $(OS) = MACOSX { #MacOS
 	KIT_LIBS = kit-libs-osx ;
 	C++ = clang++ ;
@@ -58,7 +62,7 @@ if $(OS) = NT { #Windows
 GAME_NAMES =
 	PongMode
 	main
-	load_save_png
+	#load_save_png
 	gl_compile_program
 	ColorTextureProgram
 	Mode

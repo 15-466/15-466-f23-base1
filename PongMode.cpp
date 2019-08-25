@@ -307,7 +307,7 @@ void PongMode::draw(glm::uvec2 const &drawable_size) {
 		//start ti at second element so there is always something before it to interpolate from:
 		std::deque< glm::vec3 >::iterator ti = ball_trail.begin() + 1;
 		//draw trail from oldest-to-newest:
-		for (uint32_t i = rainbow_colors.size()-1; i < rainbow_colors.size(); --i) {
+		for (uint32_t i = uint32_t(rainbow_colors.size())-1; i < rainbow_colors.size(); --i) {
 			//time at which to draw the trail element:
 			float t = (i + 1) / float(rainbow_colors.size()) * trail_length;
 			//advance ti until 'just before' t:
@@ -422,7 +422,7 @@ void PongMode::draw(glm::uvec2 const &drawable_size) {
 	glBindTexture(GL_TEXTURE_2D, white_tex);
 
 	//run the OpenGL pipeline:
-	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+	glDrawArrays(GL_TRIANGLES, 0, GLsizei(vertices.size()));
 
 	//unbind the solid white texture:
 	glBindTexture(GL_TEXTURE_2D, 0);

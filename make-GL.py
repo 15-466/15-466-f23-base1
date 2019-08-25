@@ -7,6 +7,7 @@ import re
 
 filtered = []
 lookups = []
+fps = []
 
 with open('glcorearb.h', 'r') as f:
 	in_version = None
@@ -81,7 +82,8 @@ with open('glcorearb.h', 'r') as f:
 					rt = m.group(1)
 					fn = m.group(2)
 					ag = m.group(3)
-					filtered.append("GLAPI" + rt + "APIENTRYFP " + fn + " " + ag)
+					filtered.append("GLAPI" + rt + "(APIENTRYFP " + fn + ") " + ag)
+					fps.append(rt + "(APIENTRYFP " + fn + ") " + ag)
 					lookups.append("DO(" + fn + ")")
 					#filtered.append("extern PFNGL" + uc + "PROC gl" + lc + ";")
 					#filtered.append("DO(" + uc + ", " + lc + ")\n")
@@ -161,15 +163,17 @@ with open("GL.cpp", "w") as f:
 
 #ifdef _WIN32
 	#define DO(fn) \\
-		fn = (decltype(fn))SDL_GL_GetProcAddress(#fn);
-		if (!fn) { \
-			throw std::runtime_error("Error binding " #fn); \
+		fn = (decltype(fn))SDL_GL_GetProcAddress(#fn); \\
+		if (!fn) { \\
+			throw std::runtime_error("Error binding " #fn); \\
 		}
 #else
 	#define DO(fn)
 #endif
 
 void init_GL() {""", file=f)
-	print("\n".join(lookups),file=f)
-	print("""	
-}""", file=f)
+	print("\t" + "\n\t".join(lookups),file=f)
+	print("""}
+#ifdef _WIN32""", file=f)
+	print("\t" + "\n\t".join(fps),file=f)
+	print("""#endif""", file=f)
