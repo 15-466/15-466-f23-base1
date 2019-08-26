@@ -4,43 +4,44 @@
 #You shouldn't need to change it.
 
 if $(OS) = NT { #Windows
+	NEST_LIBS = ..\\nest-libs\\windows ;
 	C++FLAGS = /nologo /Z7 /c /EHsc /W3 /WX /MD
-		/I"../nest-libs/windows/SDL2/include"
-		/I"../nest-libs/windows/glm/include"
-		/I"../nest-libs/windows/libpng/include"
-		/I"../nest-libs/windows/zlib/include"
+		/I"$(NEST_LIBS)/SDL2/include"
+		/I"$(NEST_LIBS)/glm/include"
+		/I"$(NEST_LIBS)/libpng/include"
 		#disable a few warnings:
 		/wd4146 #-1U is still unsigned
 		/wd4297 #unforunately SDLmain is nothrow
 	;
 	LINKFLAGS = /nologo /SUBSYSTEM:CONSOLE /DEBUG:FASTLINK
-		/LIBPATH:"../nest-libs/windows/SDL2/lib"
-		/LIBPATH:"../nest-libs/windows/libpng/lib"
-		/LIBPATH:"../nest-libs/windows/zlib/lib"
+		/LIBPATH:"$(NEST_LIBS)/SDL2/lib"
+		/LIBPATH:"$(NEST_LIBS)/libpng/lib"
+		/LIBPATH:"$(NEST_LIBS)/zlib/lib"
 	;
 	LINKLIBS =
 		SDL2main.lib SDL2.lib OpenGL32.lib
 		libpng.lib zlib.lib
 	;
 
-	File dist\\SDL2.dll : ..\\nest-libs\\windows\\SDL2\\dist\\SDL2.dll ;
-	File dist\\README-SDL.txt : ..\\nest-libs\\windows\\SDL2\\dist\\README-SDL.txt ;
+	File dist\\SDL2.dll : $(NEST_LIBS)\\SDL2\\dist\\SDL2.dll ;
+	File dist\\README-SDL.txt : $(NEST_LIBS)\\SDL2\\dist\\README-SDL.txt ;
 } else if $(OS) = MACOSX { #MacOS
-	KIT_LIBS = kit-libs-osx ;
+	NEST_LIBS = ../nest-libs/macos ;
 	C++ = clang++ ;
 	C++FLAGS =
 		-std=c++14 -g -Wall -Werror
-		-I$(KIT_LIBS)/libpng/include                           #libpng
-		-I$(KIT_LIBS)/glm/include                              #glm
-		`PATH=$(KIT_LIBS)/SDL2/bin:$PATH sdl2-config --cflags` #SDL2
+		`'$(NEST_LIBS)/SDL2/bin/sdl2-config' --prefix='$(NEST_LIBS)/SDL2' --cflags` #SDL2
+		-I$(NEST_LIBS)/glm/include                                                  #glm
+		-I$(NEST_LIBS)/libpng/include     
 		;
 	LINK = clang++ ;
 	LINKFLAGS = -std=c++14 -g -Wall -Werror ;
 	LINKLIBS =
-		-L$(KIT_LIBS)/libpng/lib -lpng                      #libpng
-		-L$(KIT_LIBS)/zlib/lib -lz                          #zlib
-		`PATH=$(KIT_LIBS)/SDL2/bin:$PATH sdl2-config --static-libs` -framework OpenGL #SDL2
+		`'$(NEST_LIBS)/SDL2/bin/sdl2-config' --prefix='$(NEST_LIBS)/SDL2' --static-libs` -framework OpenGL #SDL2
+		-L$(NEST_LIBS)/libpng/lib -lpng                                                       #libpng
+		-L$(NEST_LIBS)/zlib/lib -lz  
 		;
+	File dist/README-SDL.txt : $(NEST_LIBS)/SDL2/dist/README-SDL.txt ;
 } else if $(OS) = LINUX { #Linux
 	NEST_LIBS = ../nest-libs/linux ;
 	C++ = g++ ;
