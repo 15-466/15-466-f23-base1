@@ -44,7 +44,7 @@ Setup for your development environment should be relatively simple:
     - Linux: e.g. `sudo apt-get install ftjam`
 	- MacOS: e.g. `brew install ftjam`
 	- Windows: (skip this step; jam for windows is included in the nest-libs package)
- 3. Extract an appropriate release of [nest-libs](https://github.com/15-466/nest-libs) to a simbling of this folder:
+ 3. Extract an appropriate release of [nest-libs](https://github.com/15-466/nest-libs) to a sibling of this folder:
     - Linux:
 	- MacOS:
 	- Windows:
@@ -68,9 +68,10 @@ Once you have your development environment set up, building is as simple as open
 Here are a few worthwhile variations:
 
 ```
-# Always build from the game's root folder:
+# Note: Always build from the game's root folder:
   $ cd game-programming
   $ cd my-game0
+
 # Simplest build command:
   $ jam
 
@@ -94,4 +95,4 @@ Here are a few worthwhile variations:
 ```
 
 
-*Windows Note:* a pre-compiled `jam.exe` and a .bat file + .lnk to launch a VS2019 command prompt with jam.exe in the `%PATH%` are included in the `nest-libs/windows/tools/` directory. The readme in that folder explains how to use them.
+*Windows Note:* a pre-compiled `jam.exe` and a .bat file + .lnk to launch a VS2019 command prompt with jam in the `%PATH%` are included in the `nest-libs/windows/tools/` directory. The README.md in that folder explains how to use them.
