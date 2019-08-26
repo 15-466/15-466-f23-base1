@@ -4,19 +4,23 @@
 #You shouldn't need to change it.
 
 if $(OS) = NT { #Windows
-	C++FLAGS = /nologo /Z7 /c /EHsc /W3 /WX /MD /I"../nest-libs/windows/SDL2/include" /I"../nest-libs/windows/glm/include"
+	C++FLAGS = /nologo /Z7 /c /EHsc /W3 /WX /MD
+		/I"../nest-libs/windows/SDL2/include"
+		/I"../nest-libs/windows/glm/include"
+		/I"../nest-libs/windows/libpng/include"
+		/I"../nest-libs/windows/zlib/include"
 		#disable a few warnings:
 		/wd4146 #-1U is still unsigned
 		/wd4297 #unforunately SDLmain is nothrow
 	;
 	LINKFLAGS = /nologo /SUBSYSTEM:CONSOLE /DEBUG:FASTLINK
 		/LIBPATH:"../nest-libs/windows/SDL2/lib"
-		/LIBPATH:"kit-libs-win/out/libpng"
-		/LIBPATH:"kit-libs-win/out/zlib"
+		/LIBPATH:"../nest-libs/windows/libpng/lib"
+		/LIBPATH:"../nest-libs/windows/zlib/lib"
 	;
 	LINKLIBS =
 		SDL2main.lib SDL2.lib OpenGL32.lib
-		#libpng.lib zlib.lib
+		libpng.lib zlib.lib
 	;
 
 	File dist\\SDL2.dll : ..\\nest-libs\\windows\\SDL2\\dist\\SDL2.dll ;
@@ -62,7 +66,7 @@ if $(OS) = NT { #Windows
 GAME_NAMES =
 	PongMode
 	main
-	#load_save_png
+	load_save_png
 	gl_compile_program
 	ColorTextureProgram
 	Mode

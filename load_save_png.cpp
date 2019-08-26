@@ -14,10 +14,6 @@ using std::vector;
 bool load_png(std::istream &from, unsigned int *width, unsigned int *height, vector< glm::u8vec4 > *data, OriginLocation origin);
 void save_png(std::ostream &to, unsigned int width, unsigned int height, glm::u8vec4 const *data, OriginLocation origin);
 
-
-void load_png(std::string filename, glm::uvec2 *size, std::vector< glm::u8vec4 > *data, OriginLocation origin);
-void save_png(std::string filename, unsigned int width, unsigned int height, uint32_t const *data, OriginLocation origin);
-
 void load_png(std::string filename, glm::uvec2 *size, std::vector< glm::u8vec4 > *data, OriginLocation origin) {
 	assert(size);
 
@@ -30,9 +26,9 @@ void load_png(std::string filename, glm::uvec2 *size, std::vector< glm::u8vec4 >
 	}
 }
 
-void save_png(std::string filename, unsigned int width, unsigned int height, glm::u8vec4 const *data, OriginLocation origin) {
+void save_png(std::string filename, glm::uvec2 size, glm::u8vec4 const *data, OriginLocation origin) {
 	std::ofstream file(filename.c_str(), std::ios::binary);
-	save_png(file, width, height, data, origin);
+	save_png(file, size.x, size.y, data, origin);
 }
 
 
