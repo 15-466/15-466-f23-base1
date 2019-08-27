@@ -44,14 +44,14 @@ if $(OS) = NT { #Windows
 	File dist/README-SDL.txt : $(NEST_LIBS)/SDL2/dist/README-SDL.txt ;
 } else if $(OS) = LINUX { #Linux
 	NEST_LIBS = ../nest-libs/linux ;
-	C++ = g++ ;
+	C++ = g++ -no-pie ;
 	C++FLAGS =
 		-std=c++11 -g -Wall -Werror
 		`'$(NEST_LIBS)/SDL2/bin/sdl2-config' --prefix='$(NEST_LIBS)/SDL2' --cflags` #SDL2
 		-I$(NEST_LIBS)/glm/include                                                  #glm
 		-I$(NEST_LIBS)/libpng/include                                               #libpng
 		;
-	LINK = g++ ;
+	LINK = g++ -no-pie ;
 	LINKFLAGS = -std=c++11 -g -Wall -Werror ;
 	LINKLIBS =
 		`'$(NEST_LIBS)/SDL2/bin/sdl2-config' --prefix='$(NEST_LIBS)/SDL2' --static-libs` -lGL #SDL2
