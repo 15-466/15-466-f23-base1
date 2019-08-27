@@ -23,8 +23,10 @@ if $(OS) = NT { #Windows
 		libpng.lib zlib.lib
 	;
 
-	File dist\\SDL2.dll : $(NEST_LIBS)\\SDL2\\dist\\SDL2.dll ;
-	File dist\\README-SDL.txt : $(NEST_LIBS)\\SDL2\\dist\\README-SDL.txt ;
+	File SDL2.dll : $(NEST_LIBS)\\SDL2\\dist\\SDL2.dll ;
+	File README-SDL.txt : $(NEST_LIBS)\\SDL2\\dist\\README-SDL.txt ;
+	MakeLocate SDL2.dll : dist ;
+	MakeLocate README-SDL.txt : dist ;
 } else if $(OS) = MACOSX { #MacOS
 	NEST_LIBS = ../nest-libs/macos ;
 	C++ = clang++ ;
@@ -41,7 +43,8 @@ if $(OS) = NT { #Windows
 		-L$(NEST_LIBS)/libpng/lib -lpng                                                       #libpng
 		-L$(NEST_LIBS)/zlib/lib -lz  
 		;
-	File dist/README-SDL.txt : $(NEST_LIBS)/SDL2/dist/README-SDL.txt ;
+	File README-SDL.txt : $(NEST_LIBS)/SDL2/dist/README-SDL.txt ;
+	MakeLocate README-SDL.txt : dist ;
 } else if $(OS) = LINUX { #Linux
 	NEST_LIBS = ../nest-libs/linux ;
 	C++ = g++ -no-pie ;
@@ -60,6 +63,7 @@ if $(OS) = NT { #Windows
 		;
 	#`PATH=$(KIT_LIBS)/SDL2/bin:$PATH sdl2-config --static-libs` -lGL #SDL2 (old way that allows system libs to also work)
 	File dist/README-SDL.txt : $(NEST_LIBS)/SDL2/dist/README-SDL.txt ;
+	MakeLocate README-SDL.txt : dist ;
 }
 
 #---- build ----
