@@ -45,9 +45,9 @@ Setup for your development environment should be relatively simple:
 	- MacOS: e.g. `brew install ftjam`
 	- Windows: (skip this step; jam for windows is included in the nest-libs package)
  3. Extract an appropriate release of [nest-libs](https://github.com/15-466/nest-libs) to a sibling of this folder:
-    - Linux:
-	- MacOS:
-	- Windows:
+    - Linux: https://github.com/15-466/nest-libs/releases/download/v0.0/nest-libs-linux-v0.0.tar.gz
+	- MacOS: https://github.com/15-466/nest-libs/releases/download/v0.0/nest-libs-macos-v0.0.tar.gz
+	- Windows: https://github.com/15-466/nest-libs/releases/download/v0.0/nest-libs-windows-v0.0.zip
 
 Once you are finished, your directory tree should looks something like this:
 
@@ -92,6 +92,9 @@ Here are a few worthwhile variations:
 
 # Variation: this is what I generally use:
   $ jam -q -j6 && dist/pong
+
+# Useful: delete all built files:
+  $ jam clean
 ```
 
 
