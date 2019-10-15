@@ -2,17 +2,13 @@ image: Visual Studio 2019
 install:
         - cinst 7zip
         - cinst wget
-        - wget -c https://github.com/15-466/nest-libs/releases/download/v0.0/nest-libs-windows-v0.0.zip
-        - unzip -a nest-libs-windows-v0.0.zip
+        - wget -c https://github.com/15-466/nest-libs/releases/download/v0.2/nest-libs-windows-v0.2.zip
+        - unzip -a nest-libs-windows-v0.2.zip
         - mv nest-libs ..
-        - mv windows_build.bat ../nest-libs/windows/jam
+        - mv ../nest-libs/windows/jam/* .
 build_script: 
-        - mkdir dist
-        - set GAME_DIR=%cd%
-        - echo %GAME_DIR%
-        - cd ../nest-libs/windows/jam
+        - if not exist dist mkdir dist
         - cmd "/C call windows_build.bat"
-        - cd %GAME_DIR%
         - 7z a windows-build.zip dist/*.*                
 skip_non_tags: true
 artifacts:
