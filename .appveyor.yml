@@ -7,6 +7,7 @@ install:
         - mv nest-libs ..
         - mv windows_build.bat ../nest-libs/windows/jam
 build_script: 
+        - mkdir dist
         - set GAME_DIR=%cd%
         - echo %GAME_DIR%
         - cd ../nest-libs/windows/jam
