@@ -18,6 +18,11 @@ matrix:
   - name: mac
     os: osx
     compiler: clang
+    addons:
+            homebrew:
+                    packages:
+                            - ftjam
+                    update: true
     before_install:
     - brew install ftjam
     - wget -c https://github.com/15-466/nest-libs/releases/download/v0.0/nest-libs-macos-v0.0.tar.gz
