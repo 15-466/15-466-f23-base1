@@ -1,0 +1,28 @@
+image: Visual Studio 2019
+install:
+        - cinst 7zip
+        - cinst wget
+        - wget -c https://github.com/15-466/nest-libs/releases/download/v0.0/nest-libs-windows-v0.0.zip
+        - unzip -a nest-libs-windows-v0.0.zip
+        - mv nest-libs ..
+        - mv windows_build.bat ../nest-libs/windows/jam
+build_script: 
+        - set GAME_DIR=%cd%
+        - echo %GAME_DIR%
+        - cd ../nest-libs/windows/jam
+        - cmd "/C call windows_build.bat"
+        - cd %GAME_DIR%
+        - 7z a windows-build.zip dist/*.*                
+skip_non_tags: true
+artifacts:
+        - path: windows-build.zip
+          name: zip
+deploy:
+        provider: GitHub
+        auth_token:
+                secure:  2anfWWNVVdf6mWjBTTvxeaaI/HRn6s0Z5/TqVGjkXMt2GCxhkGEcbQOGWQ8sN3GN
+        draft: false
+        prerelease: false
+        on:
+                APPVEYOR_REPO_TAG: true
+
