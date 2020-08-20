@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: true
-    - name: Fetch Libraries
+      - name: Fetch Libraries
         shell: cmd
         run: |
           python .github/workflows/download-file.py https://github.com/15-466/nest-libs/releases/download/v0.3-pre1/nest-libs-windows-v0.3-pre1.zip ../nest-libs.zip
@@ -111,7 +111,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: true
-    - name: Fetch Libraries
+      - name: Fetch Libraries
         shell: bash
         run: |
           pwd
