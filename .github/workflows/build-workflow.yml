@@ -20,8 +20,8 @@ jobs:
         shell: cmd
         run: |
           python .github/workflows/download-file.py https://github.com/15-466/nest-libs/releases/download/v0.3-pre1/nest-libs-windows-v0.3-pre1.zip ../nest-libs.zip
-          "C:\\Program Files\\7-Zip\\7z.exe" x -o.. nest-libs.zip
           cd ..
+          "C:\\Program Files\\7-Zip\\7z.exe" x -o. nest-libs.zip
           dir/w
       - name: Build Code
         shell: cmd
@@ -29,11 +29,12 @@ jobs:
           dir/w
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
           "..\nest_libs\windows\jam\jam.exe" JAM_TOOLSET=VISUALC -j3 -q
+          copy README.md dist
           dir/w
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: dist-windows
+          name: ${{ env.BASE_NAME }}-windows
           path: dist
       - name: Package (Release)
         if: github.event_name == 'release'
@@ -78,15 +79,16 @@ jobs:
           sudo apt-get update
           sudo apt-get install ftjam libgl-dev
           jam -j3 -q
+          cp README.md dist
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: dist-linux
+          name: ${{ env.BASE_NAME }}-linux
           path: dist
       - name: Package
+        if: github.event_name == 'release'
         shell: bash
         run: |
-          cp README.md dist
           mv dist "$BASE_NAME""-linux-""$TAG_NAME"
           tar cfz "$BASE_NAME""-linux-""$TAG_NAME"".tar.gz" "$BASE_NAME""-linux-""$TAG_NAME"
           ls
@@ -125,12 +127,14 @@ jobs:
           brew install ftjam
           mkdir -p dist
           jam -j3 -q
+          cp README.md dist
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
           name: ${{ env.BASE_NAME }}-macos
           path: dist
       - name: Package
+        if: github.event_name == 'release'
         shell: bash
         run: |
           cp README.md dist
