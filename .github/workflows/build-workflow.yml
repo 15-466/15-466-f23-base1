@@ -28,20 +28,21 @@ jobs:
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
           "nest_libs\windows\jam\jam.exe" JAM_TOOLSET=VISUALC -j3 -q
           dir/w
-      - name: Package
-        shell: cmd
-        run: |
-          copy README.md dist
-          rename dist "hack-stitch-faces-windows-%TAG_NAME%"
-          "C:\Program Files\7-Zip\7z.exe" a -r "hack-stitch-faces-windows-%TAG_NAME%.zip" "hack-stitch-faces-windows-%TAG_NAME%"
-          dir/w
-        env:
-          TAG_NAME: ${{ github.event.release.tag_name }}
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: hack-stitch-faces-windows-
-          path: hack-stitch-faces-windows-
+          name: dist
+          path: dist
+      - name: Package (Release)
+        if: github.event_name == 'release'
+        shell: cmd
+        run: |
+          copy README.md dist
+          rename dist "game0-%TAG_NAME%"
+          "C:\Program Files\7-Zip\7z.exe" a -r "game0-%TAG_NAME%.zip" "game0-%TAG_NAME%"
+          dir/w
+        env:
+          TAG_NAME: ${{ github.event.release.tag_name }}
       - name: Upload Result
         if: github.event_name == 'release'
         uses: actions/upload-release-asset@v1
