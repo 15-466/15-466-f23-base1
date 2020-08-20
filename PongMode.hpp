@@ -3,6 +3,8 @@
 #include "Mode.hpp"
 #include "GL.hpp"
 
+#include <glm/glm.hpp>
+
 #include <vector>
 #include <deque>
 

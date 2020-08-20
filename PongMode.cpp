@@ -253,18 +253,18 @@ void PongMode::update(float elapsed) {
 void PongMode::draw(glm::uvec2 const &drawable_size) {
 	//some nice colors from the course web page:
 	#define HEX_TO_U8VEC4( HX ) (glm::u8vec4( (HX >> 24) & 0xff, (HX >> 16) & 0xff, (HX >> 8) & 0xff, (HX) & 0xff ))
-	const glm::u8vec4 bg_color = HEX_TO_U8VEC4(0xf3ffc6ff);
-	const glm::u8vec4 fg_color = HEX_TO_U8VEC4(0x000000ff);
-	const glm::u8vec4 shadow_color = HEX_TO_U8VEC4(0xa5df40ff);
+	const glm::u8vec4 bg_color = HEX_TO_U8VEC4(0x171714ff);
+	const glm::u8vec4 fg_color = HEX_TO_U8VEC4(0xd1bb54ff);
+	const glm::u8vec4 shadow_color = HEX_TO_U8VEC4(0x604d29ff);
 	const std::vector< glm::u8vec4 > rainbow_colors = {
-		HEX_TO_U8VEC4(0xe2ff70ff), HEX_TO_U8VEC4(0xcbff70ff), HEX_TO_U8VEC4(0xaeff5dff),
-		HEX_TO_U8VEC4(0x88ff52ff), HEX_TO_U8VEC4(0x6cff47ff), HEX_TO_U8VEC4(0x3aff37ff),
-		HEX_TO_U8VEC4(0x2eff94ff), HEX_TO_U8VEC4(0x2effa5ff), HEX_TO_U8VEC4(0x17ffc1ff),
-		HEX_TO_U8VEC4(0x00f4e7ff), HEX_TO_U8VEC4(0x00cbe4ff), HEX_TO_U8VEC4(0x00b0d8ff),
-		HEX_TO_U8VEC4(0x00a5d1ff), HEX_TO_U8VEC4(0x0098cfd8), HEX_TO_U8VEC4(0x0098cf54),
-		HEX_TO_U8VEC4(0x0098cf54), HEX_TO_U8VEC4(0x0098cf54), HEX_TO_U8VEC4(0x0098cf54),
-		HEX_TO_U8VEC4(0x0098cf54), HEX_TO_U8VEC4(0x0098cf54), HEX_TO_U8VEC4(0x0098cf54),
-		HEX_TO_U8VEC4(0x0098cf54)
+		HEX_TO_U8VEC4(0x604d29ff), HEX_TO_U8VEC4(0x624f29fc), HEX_TO_U8VEC4(0x69542df2),
+		HEX_TO_U8VEC4(0x6a552df1), HEX_TO_U8VEC4(0x6b562ef0), HEX_TO_U8VEC4(0x6b562ef0),
+		HEX_TO_U8VEC4(0x6d572eed), HEX_TO_U8VEC4(0x6f592feb), HEX_TO_U8VEC4(0x725b31e7),
+		HEX_TO_U8VEC4(0x745d31e3), HEX_TO_U8VEC4(0x755e32e0), HEX_TO_U8VEC4(0x765f33de),
+		HEX_TO_U8VEC4(0x7a6234d8), HEX_TO_U8VEC4(0x826838ca), HEX_TO_U8VEC4(0x977840a4),
+		HEX_TO_U8VEC4(0x96773fa5), HEX_TO_U8VEC4(0xa07f4493), HEX_TO_U8VEC4(0xa1814590),
+		HEX_TO_U8VEC4(0x9e7e4496), HEX_TO_U8VEC4(0xa6844887), HEX_TO_U8VEC4(0xa9864884),
+		HEX_TO_U8VEC4(0xad8a4a7c),
 	};
 	#undef HEX_TO_U8VEC4
 
@@ -280,7 +280,7 @@ void PongMode::draw(glm::uvec2 const &drawable_size) {
 
 	//inline helper function for rectangle drawing:
 	auto draw_rectangle = [&vertices](glm::vec2 const &center, glm::vec2 const &radius, glm::u8vec4 const &color) {
-		//split rectangle into two CCW-oriented triangles:
+		//draw rectangle as two CCW-oriented triangles:
 		vertices.emplace_back(glm::vec3(center.x-radius.x, center.y-radius.y, 0.0f), color, glm::vec2(0.5f, 0.5f));
 		vertices.emplace_back(glm::vec3(center.x+radius.x, center.y-radius.y, 0.0f), color, glm::vec2(0.5f, 0.5f));
 		vertices.emplace_back(glm::vec3(center.x+radius.x, center.y+radius.y, 0.0f), color, glm::vec2(0.5f, 0.5f));
@@ -382,7 +382,7 @@ void PongMode::draw(glm::uvec2 const &drawable_size) {
 		glm::vec4(-center.x * (scale / aspect), -center.y * scale, 0.0f, 1.0f)
 	);
 	//NOTE: glm matrices are specified in *Column-Major* order,
-	// so this matrix is actually transposed from how it appears.
+	// so each line above is specifying a *column* of the matrix(!)
 
 	//also build the matrix that takes clip coordinates to court coordinates (used for mouse handling):
 	clip_to_court = glm::mat3x2(
@@ -417,7 +417,7 @@ void PongMode::draw(glm::uvec2 const &drawable_size) {
 	//use the mapping vertex_buffer_for_color_texture_program to fetch vertex data:
 	glBindVertexArray(vertex_buffer_for_color_texture_program);
 
-	//bind the solid white texture to location zero:
+	//bind the solid white texture to location zero so things will be drawn just with their colors:
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, white_tex);
 

@@ -10,7 +10,7 @@ Here is a quick overview of what is included. For further information, ☺read t
     - ```main.cpp``` creates the game window and contains the main loop. Set your window title, size, and initial Mode here.
     - ```PongMode.*pp``` declaration+definition for a basic pong game. You'll probably rename this and build your own mode on it.
     - ```Jamfile``` responsible for telling FTJam how to build the project. Change this when you add additional .cpp files and to change your runtime executable's name.
-    - ```.gitignore``` ignores generated files. You will need to change it if your executable name changes. (If you find yourself changing it to ignore, e.g., your editor's swap files you should probably, instead be investigating making this change in the global git configuration.)
+    - ```.gitignore``` ignores generated files. You will need to change it if your executable name changes. (If you find yourself changing it to ignore, e.g., your editor's swap files you should probably, instead, be investigating making this change in the global git configuration.)
 - Useful code (files you should investigate, but probably won't change):
     - ```Mode.hpp``` base class for modes (things that recieve events and draw).
     - ```ColorTextureProgram.hpp``` example OpenGL shader program, wrapped in a helper class.

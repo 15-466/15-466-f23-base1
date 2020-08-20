@@ -1,7 +1,7 @@
 //Mode.hpp declares the "Mode::current" static member variable, which is used to decide where event-handling, updating, and drawing events go:
 #include "Mode.hpp"
 
-//The 'GameMode' mode plays the game:
+//The 'PongMode' mode plays the game:
 #include "PongMode.hpp"
 
 //GL.hpp will include a non-namespace-polluting set of opengl prototypes:
@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
 
 	//create window:
 	SDL_Window *window = SDL_CreateWindow(
-		"gp19 pong", //TODO: remember to set a title for your game!
+		"gp20 pong", //TODO: remember to set a title for your game!
 		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 		640, 480, //TODO: modify window size if you'd like
 		SDL_WINDOW_OPENGL
