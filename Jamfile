@@ -62,7 +62,7 @@ if $(OS) = NT { #Windows
 		-L$(NEST_LIBS)/zlib/lib -lz                                                           #zlib
 		;
 	#`PATH=$(KIT_LIBS)/SDL2/bin:$PATH sdl2-config --static-libs` -lGL #SDL2 (old way that allows system libs to also work)
-	File dist/README-SDL.txt : $(NEST_LIBS)/SDL2/dist/README-SDL.txt ;
+	File README-SDL.txt : $(NEST_LIBS)/SDL2/dist/README-SDL.txt ;
 	MakeLocate README-SDL.txt : dist ;
 }
 
