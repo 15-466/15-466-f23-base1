@@ -4,6 +4,8 @@ on:
   release:
     types: [created]
 
+env:
+  BASE_NAME: game0
 
 jobs:
   build-windows:
@@ -20,26 +22,25 @@ jobs:
           python .github/workflows/download-file.py https://github.com/15-466/nest-libs/releases/download/v0.3-pre1/nest-libs-windows-v0.3-pre1.zip ../nest-libs.zip
           "C:\\Program Files\\7-Zip\\7z.exe" x -o.. nest-libs.zip
           cd ..
-          dir /w
+          dir/w
       - name: Build Code
         shell: cmd
         run: |
           dir/w
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-          "nest_libs\windows\jam\jam.exe" JAM_TOOLSET=VISUALC -j3 -q
+          "..\nest_libs\windows\jam\jam.exe" JAM_TOOLSET=VISUALC -j3 -q
           dir/w
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: dist
+          name: dist-windows
           path: dist
       - name: Package (Release)
         if: github.event_name == 'release'
         shell: cmd
         run: |
-          copy README.md dist
-          rename dist "game0-%TAG_NAME%"
-          "C:\Program Files\7-Zip\7z.exe" a -r "game0-%TAG_NAME%.zip" "game0-%TAG_NAME%"
+          rename dist "%BASE_NAME%-windows-%TAG_NAME%"
+          "C:\Program Files\7-Zip\7z.exe" a -r "%BASE_NAME%-windows-%TAG_NAME%.zip" "%BASE_NAME%-windows-%TAG_NAME%"
           dir/w
         env:
           TAG_NAME: ${{ github.event.release.tag_name }}
@@ -50,8 +51,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: hack-stitch-faces-windows-${{ github.event.release.tag_name }}.zip
-          asset_name: hack-stitch-faces-windows-${{ github.event.release.tag_name }}.zip
+          asset_path: ${{ env.BASE_NAME }}-windows-${{ github.event.release.tag_name }}.zip
+          asset_name: ${{ env.BASE_NAME }}-windows-${{ github.event.release.tag_name }}.zip
           asset_content_type: application/zip
   build-linux:
     name: Build (Linux)
@@ -75,24 +76,22 @@ jobs:
         run: |
           pwd
           sudo apt-get update
-          sudo apt-get install ftjam
+          sudo apt-get install ftjam libgl-dev
           jam -j3 -q
-        env:
-          TAG_NAME: ${{ github.event.release.tag_name }}
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist-linux
+          path: dist
       - name: Package
         shell: bash
         run: |
           cp README.md dist
-          mv dist "hack-stitch-faces-linux-$TAG_NAME"
-          tar cfz "hack-stitch-faces-linux-$TAG_NAME"".tar.gz" "hack-stitch-faces-linux-$TAG_NAME"
+          mv dist "$BASE_NAME""-linux-""$TAG_NAME"
+          tar cfz "$BASE_NAME""-linux-""$TAG_NAME"".tar.gz" "$BASE_NAME""-linux-""$TAG_NAME"
           ls
         env:
           TAG_NAME: ${{ github.event.release.tag_name }}
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: hack-stitch-faces-linux-
-          path: hack-stitch-faces-linux-.tar.gz
       - name: Upload Result
         if: github.event_name == 'release'
         uses: actions/upload-release-asset@v1
@@ -100,8 +99,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: hack-stitch-faces-linux-${{ github.event.release.tag_name }}.tar.gz
-          asset_name: hack-stitch-faces-linux-${{ github.event.release.tag_name }}.tar.gz
+          asset_path: ${{ env.BASE_NAME }}-linux-${{ github.event.release.tag_name }}.tar.gz
+          asset_name: ${{ env.BASE_NAME }}-linux-${{ github.event.release.tag_name }}.tar.gz
           asset_content_type: application/gzip
   build-macos:
     name: Build (MacOS)
@@ -126,20 +125,20 @@ jobs:
           brew install ftjam
           mkdir -p dist
           jam -j3 -q
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.BASE_NAME }}-macos
+          path: dist
       - name: Package
         shell: bash
         run: |
           cp README.md dist
-          mv dist "hack-stitch-faces-macos-$TAG_NAME"
-          tar cfz "hack-stitch-faces-macos-$TAG_NAME"".tar.gz" "hack-stitch-faces-macos-$TAG_NAME"
+          mv dist "$BASE_NAME""-macos-""$TAG_NAME"
+          tar cfz "$BASE_NAME""-macos-""$TAG_NAME"".tar.gz" "$BASE_NAME""-macos-""$TAG_NAME"
           ls
         env:
           TAG_NAME: ${{ github.event.release.tag_name }}
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: hack-stitch-faces-macos-
-          path: hack-stitch-faces-macos-
       - name: Upload Result
         if: github.event_name == 'release'
         uses: actions/upload-release-asset@v1
@@ -147,6 +146,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: hack-stitch-faces-macos-${{ github.event.release.tag_name }}.tar.gz
-          asset_name: hack-stitch-faces-macos-${{ github.event.release.tag_name }}.tar.gz
+          asset_path: ${{ env.BASE_NAME }}-macos-${{ github.event.release.tag_name }}.tar.gz
+          asset_name: ${{ env.BASE_NAME }}-macos-${{ github.event.release.tag_name }}.tar.gz
           asset_content_type: application/gzip
