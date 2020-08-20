@@ -21,16 +21,17 @@ jobs:
         run: |
           python .github/workflows/download-file.py https://github.com/15-466/nest-libs/releases/download/v0.3-pre1/nest-libs-windows-v0.3-pre1.zip ../nest-libs.zip
           cd ..
-          "C:\\Program Files\\7-Zip\\7z.exe" x -o. nest-libs.zip
-          dir/w
+          "C:\Program Files\7-Zip\7z.exe" x -o. nest-libs.zip
+          dir /w nest-libs
+          dir /w nest-libs\windows
+          dir /w nest-libs\windows\jam
       - name: Build Code
         shell: cmd
         run: |
           dir/w
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-          "..\nest_libs\windows\jam\jam.exe" JAM_TOOLSET=VISUALC -j3 -q
+          ..\nest-libs\windows\jam\jam.exe JAM_TOOLSET=VISUALC -j3 -q
           copy README.md dist
-          dir/w
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
