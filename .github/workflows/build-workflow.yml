@@ -69,7 +69,7 @@ jobs:
         shell: bash
         run: |
           sudo apt-get update
-          sudo apt-get install ftjam libgl-dev
+          sudo apt-get install ftjam libgl1
           ls
           jam -j3 -q && cp README.md dist
       - name: Upload Artifact
