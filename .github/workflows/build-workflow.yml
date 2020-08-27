@@ -6,6 +6,7 @@ on:
 
 env:
   BASE_NAME: game0
+  NEST_LIBS_VERSION: v0.4-pre2
 
 jobs:
   build-windows:
@@ -19,7 +20,7 @@ jobs:
       - name: Fetch Libraries
         shell: cmd
         run: |
-          python .github/workflows/download-file.py https://github.com/15-466/nest-libs/releases/download/v0.3-pre1/nest-libs-windows-v0.3-pre1.zip ../nest-libs.zip
+          python .github/workflows/download-file.py https://github.com/15-466/nest-libs/releases/download/%NEST_LIBS_VERSION%/nest-libs-windows-%NEST_LIBS_VERSION%.zip ../nest-libs.zip
           cd ..
           "C:\Program Files\7-Zip\7z.exe" x -o. nest-libs.zip
       - name: Build Code
@@ -63,13 +64,13 @@ jobs:
         shell: bash
         run: |
           cd ..
-          wget https://github.com/15-466/nest-libs/releases/download/v0.3-pre1/nest-libs-linux-v0.3-pre1.tar.gz -Onest-libs.tar.gz
+          wget https://github.com/15-466/nest-libs/releases/download/${NEST_LIBS_VERSION}/nest-libs-linux-${NEST_LIBS_VERSION}.tar.gz -Onest-libs.tar.gz
           tar xfz nest-libs.tar.gz
       - name: Build Code
         shell: bash
         run: |
           sudo apt-get update
-          sudo apt-get install ftjam libgl1
+          sudo apt-get install ftjam libgl-dev
           ls
           jam -j3 -q && cp README.md dist
       - name: Upload Artifact
@@ -107,7 +108,7 @@ jobs:
         shell: bash
         run: |
           cd ..
-          wget https://github.com/15-466/nest-libs/releases/download/v0.3-pre1/nest-libs-macos-v0.3-pre1.tar.gz -Onest-libs.tar.gz
+          wget https://github.com/15-466/nest-libs/releases/download/${NEST_LIBS_VERSION}/nest-libs-macos-${NEST_LIBS_VERSION}.tar.gz -Onest-libs.tar.gz
           tar xfz nest-libs.tar.gz
       - name: Build Code
         shell: bash
