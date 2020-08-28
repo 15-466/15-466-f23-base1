@@ -7,20 +7,22 @@ This name captures the goal of having the various parts and functions relatively
 
 Here is a quick overview of what is included. For further information, ☺read the code☺ !
 - Base code (files you will certainly edit):
-    - ```main.cpp``` creates the game window and contains the main loop. Set your window title, size, and initial Mode here.
-    - ```PongMode.*pp``` declaration+definition for a basic pong game. You'll probably rename this and build your own mode on it.
-    - ```Jamfile``` responsible for telling FTJam how to build the project. Change this when you add additional .cpp files and to change your runtime executable's name.
-    - ```.gitignore``` ignores generated files. You will need to change it if your executable name changes. (If you find yourself changing it to ignore, e.g., your editor's swap files you should probably, instead, be investigating making this change in the global git configuration.)
+	- [`main.cpp`](main.cpp) creates the game window and contains the main loop. Set your window title, size, and initial Mode here.
+	- `PongMode.*pp` declaration+definition for a basic pong game. You'll probably rename this and build your own mode on it.
+	- `Jamfile` responsible for telling FTJam how to build the project. Change this when you add additional .cpp files and to change your runtime executable's name.
+	- `.gitignore` ignores generated files. You will need to change it if your executable name changes. (If you find yourself changing it to ignore, e.g., your editor's swap files you should probably, instead, be investigating making this change in the global git configuration.)
 - Useful code (files you should investigate, but probably won't change):
-    - ```Mode.hpp``` base class for modes (things that recieve events and draw).
-    - ```ColorTextureProgram.hpp``` example OpenGL shader program, wrapped in a helper class.
-    - ```gl_compile_program.hpp``` helper function to compiles OpenGL shader programs.
-    - ```load_save_png.hpp``` helper functions to load and save PNG images.
-    - ```GL.hpp``` includes OpenGL 3.3 prototypes without the namespace pollution of (e.g.) SDL's OpenGL header; on Windows, deals with some function pointer wrangling.
-    - ```gl_errors.hpp``` provides a ```GL_ERRORS()``` macro.
+	- `Mode.hpp` base class for modes (things that recieve events and draw).
+	- `ColorTextureProgram.hpp` example OpenGL shader program, wrapped in a helper class.
+	- `gl_compile_program.hpp` helper function to compiles OpenGL shader programs.
+	- `load_save_png.hpp` helper functions to load and save PNG images.
+	- `GL.hpp` includes OpenGL 3.3 prototypes without the namespace pollution of (e.g.) SDL's OpenGL header; on Windows, deals with some function pointer wrangling.
+	- `gl_errors.hpp` provides a `GL_ERRORS()` macro.
+	- `.github/workflows/build-workflow.yml` sets up the repository to be built via github actions whenever it is pushed or released.
 - Here be dragons (files you probably don't need to look at):
-    - ```make-GL.py``` does what it says on the tin. Included in case you are curious. You won't need to run it.
-	- ```glcorearb.h``` used by ```make-GL.py``` to produce ```GL.*pp```
+	- `make-GL.py` does what it says on the tin. Included in case you are curious. You won't need to run it.
+	- `glcorearb.h` used by `make-GL.py` to produce `GL.*pp`
+
 
 
 ## Build Instructions
@@ -44,10 +46,10 @@ Setup for your development environment should be relatively simple:
     - Linux: e.g. `sudo apt-get install ftjam`
 	- MacOS: e.g. `brew install ftjam`
 	- Windows: (skip this step; jam for windows is included in the nest-libs package)
- 3. Extract an appropriate release of [nest-libs](https://github.com/15-466/nest-libs) to a sibling of this folder:
-    - Linux: https://github.com/15-466/nest-libs/releases/download/v0.0/nest-libs-linux-v0.0.tar.gz
-	- MacOS: https://github.com/15-466/nest-libs/releases/download/v0.0/nest-libs-macos-v0.0.tar.gz
-	- Windows: https://github.com/15-466/nest-libs/releases/download/v0.0/nest-libs-windows-v0.0.zip
+ 3. Extract an appropriate [release of nest-libs](https://github.com/15-466/nest-libs/releases) to a sibling of this folder:
+    - Linux: https://github.com/15-466/nest-libs/releases/download/v0.4/nest-libs-linux-v0.4.tar.gz
+	- MacOS: https://github.com/15-466/nest-libs/releases/download/v0.4/nest-libs-macos-v0.4.tar.gz
+	- Windows: https://github.com/15-466/nest-libs/releases/download/v0.4/nest-libs-windows-v0.4.zip
 
 Once you are finished, your directory tree should looks something like this:
 
@@ -99,3 +101,9 @@ Here are a few worthwhile variations:
 
 
 *Windows Note:* a pre-compiled `jam.exe` and a .bat file + .lnk to launch a VS2019 command prompt with jam in the `%PATH%` are included in the `nest-libs/windows/tools/` directory. The README.md in that folder explains how to use them.
+
+
+## A Word About Github Actions
+
+This repository is equipped with a `.github/workflows/build-workflow.yml` file that tells github that you would like it to build the code for you whenever you push code.
+This is a great way to check if things are working cross-platform and even to package releases of your game (the workflow is set up such that if you create a release through the github web UI, it will automatically build, package, and upload binaries to the release).
