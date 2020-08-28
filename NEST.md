@@ -8,20 +8,20 @@ This name captures the goal of having the various parts and functions relatively
 Here is a quick overview of what is included. For further information, ☺read the code☺ !
 - Base code (files you will certainly edit):
 	- [`main.cpp`](main.cpp) creates the game window and contains the main loop. Set your window title, size, and initial Mode here.
-	- `PongMode.*pp` declaration+definition for a basic pong game. You'll probably rename this and build your own mode on it.
-	- `Jamfile` responsible for telling FTJam how to build the project. Change this when you add additional .cpp files and to change your runtime executable's name.
-	- `.gitignore` ignores generated files. You will need to change it if your executable name changes. (If you find yourself changing it to ignore, e.g., your editor's swap files you should probably, instead, be investigating making this change in the global git configuration.)
+	- [`PongMode.hpp`](PongMode.hpp), [`PongMode.cpp`](PongMode.cpp) declaration+definition for a basic pong game. You'll probably rename this and build your own mode on it.
+	- [`Jamfile`](Jamfile) responsible for telling FTJam how to build the project. Change this when you add additional .cpp files and to change your runtime executable's name.
+	- [`.gitignore`](.gitignore) ignores generated files. You will need to change it if your executable name changes. (If you find yourself changing it to ignore, e.g., your editor's swap files you should probably, instead, be investigating making this change in the global git configuration.)
 - Useful code (files you should investigate, but probably won't change):
-	- `Mode.hpp` base class for modes (things that recieve events and draw).
-	- `ColorTextureProgram.hpp` example OpenGL shader program, wrapped in a helper class.
-	- `gl_compile_program.hpp` helper function to compiles OpenGL shader programs.
-	- `load_save_png.hpp` helper functions to load and save PNG images.
-	- `GL.hpp` includes OpenGL 3.3 prototypes without the namespace pollution of (e.g.) SDL's OpenGL header; on Windows, deals with some function pointer wrangling.
-	- `gl_errors.hpp` provides a `GL_ERRORS()` macro.
-	- `.github/workflows/build-workflow.yml` sets up the repository to be built via github actions whenever it is pushed or released.
+	- [`Mode.hpp`](Mode.hpp), [`Mode.cpp`](Mode.cpp) base class for modes (things that recieve events and draw).
+	- [`ColorTextureProgram.hpp`](ColorTextureProgram.hpp), [`ColorTextureProgram.cpp`](ColorTextureProgram.cpp) example OpenGL shader program, wrapped in a helper class.
+	- [`gl_compile_program.hpp`](gl_compile_program.hpp), [`gl_compile_program.cpp`](gl_compile_program.cpp) helper function to compiles OpenGL shader programs.
+	- [`load_save_png.hpp`](load_save_png.hpp), [`load_save_png.cpp`](load_save_png.cpp) helper functions to load and save PNG images.
+	- [`GL.hpp`](GL.hpp), [`GL.cpp`](GL.cpp) includes OpenGL 3.3 prototypes without the namespace pollution of (e.g.) SDL's OpenGL header; on Windows, deals with some function pointer wrangling.
+	- [`gl_errors.hpp`](gl_errors.hpp) provides a `GL_ERRORS()` macro.
+	- [`.github/workflows/build-workflow.yml`](.github/workflows/build-workflow.yml) sets up the repository to be built via github actions whenever it is pushed or released.
 - Here be dragons (files you probably don't need to look at):
-	- `make-GL.py` does what it says on the tin. Included in case you are curious. You won't need to run it.
-	- `glcorearb.h` used by `make-GL.py` to produce `GL.*pp`
+	- [`make-GL.py`](make-GL.py) does what it says on the tin. Included in case you are curious. You won't need to run it.
+	- [`glcorearb.h`](glcorearb.h) used by `make-GL.py` to produce `GL.*pp`
 
 
 
