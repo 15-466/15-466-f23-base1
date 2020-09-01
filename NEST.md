@@ -100,7 +100,7 @@ Here are a few worthwhile variations:
 ```
 
 
-*Windows Note:* a pre-compiled `jam.exe` and a .bat file + .lnk to launch a VS2019 command prompt with jam in the `%PATH%` are included in the `nest-libs/windows/tools/` directory. The README.md in that folder explains how to use them.
+*Windows Note:* a pre-compiled `jam.exe` and a .bat file + .lnk to launch a VS2019 command prompt with jam in the `%PATH%` are included in the `nest-libs/windows/jam/` directory. The README.md in that folder explains how to use them.
 
 
 ## A Word About Github Actions
