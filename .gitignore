@@ -1,5 +1,7 @@
 objs/
 dist/README-SDL.txt
-dist/SDL.dll
+dist/pong.ilk
+dist/pong.pdb
+dist/SDL2.dll
 dist/pong
 dist/pong.exe
