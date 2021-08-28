@@ -327,8 +327,8 @@ void PongMode::draw(glm::uvec2 const &drawable_size) {
 				ci = 0;
 				cf = 0.0f;
 			}
-			if (ci > int32_t(trail_colors.size())-1) {
-				ci = int32_t(trail_colors.size())-1;
+			if (ci > int32_t(trail_colors.size())-2) {
+				ci = int32_t(trail_colors.size())-2;
 				cf = 1.0f;
 			}
 			//do the interpolation (casting to floating point vectors because glm::mix doesn't have an overload for u8 vectors):
