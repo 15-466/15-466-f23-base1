@@ -234,7 +234,7 @@ void PongMode::update(float elapsed) {
 		}
 	}
 
-	//----- rainbow trails -----
+	//----- gradient trails -----
 
 	//age up all locations in ball trail:
 	for (auto &t : ball_trail) {
@@ -253,18 +253,13 @@ void PongMode::update(float elapsed) {
 void PongMode::draw(glm::uvec2 const &drawable_size) {
 	//some nice colors from the course web page:
 	#define HEX_TO_U8VEC4( HX ) (glm::u8vec4( (HX >> 24) & 0xff, (HX >> 16) & 0xff, (HX >> 8) & 0xff, (HX) & 0xff ))
-	const glm::u8vec4 bg_color = HEX_TO_U8VEC4(0x171714ff);
-	const glm::u8vec4 fg_color = HEX_TO_U8VEC4(0xd1bb54ff);
-	const glm::u8vec4 shadow_color = HEX_TO_U8VEC4(0x604d29ff);
-	const std::vector< glm::u8vec4 > rainbow_colors = {
-		HEX_TO_U8VEC4(0x604d29ff), HEX_TO_U8VEC4(0x624f29fc), HEX_TO_U8VEC4(0x69542df2),
-		HEX_TO_U8VEC4(0x6a552df1), HEX_TO_U8VEC4(0x6b562ef0), HEX_TO_U8VEC4(0x6b562ef0),
-		HEX_TO_U8VEC4(0x6d572eed), HEX_TO_U8VEC4(0x6f592feb), HEX_TO_U8VEC4(0x725b31e7),
-		HEX_TO_U8VEC4(0x745d31e3), HEX_TO_U8VEC4(0x755e32e0), HEX_TO_U8VEC4(0x765f33de),
-		HEX_TO_U8VEC4(0x7a6234d8), HEX_TO_U8VEC4(0x826838ca), HEX_TO_U8VEC4(0x977840a4),
-		HEX_TO_U8VEC4(0x96773fa5), HEX_TO_U8VEC4(0xa07f4493), HEX_TO_U8VEC4(0xa1814590),
-		HEX_TO_U8VEC4(0x9e7e4496), HEX_TO_U8VEC4(0xa6844887), HEX_TO_U8VEC4(0xa9864884),
-		HEX_TO_U8VEC4(0xad8a4a7c),
+	const glm::u8vec4 bg_color = HEX_TO_U8VEC4(0x193b59ff);
+	const glm::u8vec4 fg_color = HEX_TO_U8VEC4(0xf2d2b6ff);
+	const glm::u8vec4 shadow_color = HEX_TO_U8VEC4(0xf2ad94ff);
+	const std::vector< glm::u8vec4 > trail_colors = {
+		HEX_TO_U8VEC4(0xf2ad9488),
+		HEX_TO_U8VEC4(0xf2897288),
+		HEX_TO_U8VEC4(0xbacac088),
 	};
 	#undef HEX_TO_U8VEC4
 
@@ -307,19 +302,42 @@ void PongMode::draw(glm::uvec2 const &drawable_size) {
 		//start ti at second element so there is always something before it to interpolate from:
 		std::deque< glm::vec3 >::iterator ti = ball_trail.begin() + 1;
 		//draw trail from oldest-to-newest:
-		for (uint32_t i = uint32_t(rainbow_colors.size())-1; i < rainbow_colors.size(); --i) {
+		constexpr uint32_t STEPS = 20;
+		//draw from [STEPS, ..., 1]:
+		for (uint32_t step = STEPS; step > 0; --step) {
 			//time at which to draw the trail element:
-			float t = (i + 1) / float(rainbow_colors.size()) * trail_length;
+			float t = step / float(STEPS) * trail_length;
 			//advance ti until 'just before' t:
 			while (ti != ball_trail.end() && ti->z > t) ++ti;
-			//if we ran out of tail, stop drawing:
+			//if we ran out of recorded tail, stop drawing:
 			if (ti == ball_trail.end()) break;
 			//interpolate between previous and current trail point to the correct time:
 			glm::vec3 a = *(ti-1);
 			glm::vec3 b = *(ti);
 			glm::vec2 at = (t - a.z) / (b.z - a.z) * (glm::vec2(b) - glm::vec2(a)) + glm::vec2(a);
+
+			//look up color using linear interpolation:
+			//compute (continuous) index:
+			float c = (step-1) / float(STEPS-1) * trail_colors.size();
+			//split into an integer and fractional portion:
+			int32_t ci = int32_t(std::floor(c));
+			float cf = c - ci;
+			//clamp to allowable range (shouldn't ever be needed but good to think about for general interpolation):
+			if (ci < 0) {
+				ci = 0;
+				cf = 0.0f;
+			}
+			if (ci > int32_t(trail_colors.size())-1) {
+				ci = trail_colors.size()-1;
+				cf = 1.0f;
+			}
+			//do the interpolation (casting to floating point vectors because glm::mix doesn't have an overload for u8 vectors):
+			glm::u8vec4 color = glm::u8vec4(
+				glm::mix(glm::vec4(trail_colors[ci]), glm::vec4(trail_colors[ci+1]), cf)
+			);
+
 			//draw:
-			draw_rectangle(at, ball_radius, rainbow_colors[i]);
+			draw_rectangle(at, ball_radius, color);
 		}
 	}
 
