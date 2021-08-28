@@ -40,16 +40,16 @@ Setup for your development environment should be relatively simple:
  0. (Optional) Make sure your system is set up to make it easy to use your favorite code editor and git from the command prompt. So much nicer than using a GUI.
  1. Install one of our target C++ compilers:
  	- Linux: g++
-	- MacOS: clang++ (from XCode)
+	- MacOS: clang++ (from XCode). From the terminal: `xcode-select --install`
 	- Windows: Visual Studio Community 2019
- 2. Install ftjam from your OS's package manager:
+ 2. Install ftjam (or regular perforce jam) from your OS's package manager:
     - Linux: e.g. `sudo apt-get install ftjam`
-	- MacOS: e.g. `brew install ftjam`
-	- Windows: (skip this step; jam for windows is included in the nest-libs package)
+	- MacOS: e.g. `brew install jam`
+	- Windows: (skip this step; jam for windows is included in the nest-libs package -- see Windows Note below)
  3. Extract an appropriate [release of nest-libs](https://github.com/15-466/nest-libs/releases) to a sibling of this folder:
-    - Linux: https://github.com/15-466/nest-libs/releases/download/v0.4/nest-libs-linux-v0.4.tar.gz
-	- MacOS: https://github.com/15-466/nest-libs/releases/download/v0.4/nest-libs-macos-v0.4.tar.gz
-	- Windows: https://github.com/15-466/nest-libs/releases/download/v0.4/nest-libs-windows-v0.4.zip
+    - Linux: https://github.com/15-466/nest-libs/releases/download/v0.7/nest-libs-linux-v0.7.tar.gz
+	- MacOS: https://github.com/15-466/nest-libs/releases/download/v0.7/nest-libs-macos-v0.7.tar.gz
+	- Windows: https://github.com/15-466/nest-libs/releases/download/v0.7/nest-libs-windows-v0.7.zip
 
 Once you are finished, your directory tree should looks something like this:
 
@@ -58,9 +58,9 @@ game-programming/ #can be called anything
 	nest-libs/    #nest-libs from that repository's releases page
 		windows/  #subdirectory name varies depending on platform
 		...
-	my-game0/     #fork or the base0 code; can be called anything
+	my-gameN/     #fork of the baseN code; can be called anything
 		...
-	...           #eventually, you will have further subdirectories for other games
+	...           #further subdirectories for other games
 ```
 
 ### Building
