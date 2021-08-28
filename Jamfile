@@ -29,7 +29,7 @@ if $(OS) = NT { #Windows
 		#/LIBPATH:"$(NEST_LIBS)/freetype/lib"
 	;
 	LINKLIBS =
-		SDL2main.lib SDL2.lib OpenGL32.lib
+		SDL2main.lib SDL2.lib OpenGL32.lib Shell32.lib
 		libpng.lib zlib.lib #opusfile.lib opus.lib libogg.lib harfbuzz.lib freetype.lib
 	;
 
