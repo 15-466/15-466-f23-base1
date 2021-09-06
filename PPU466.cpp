@@ -290,7 +290,6 @@ void PPU466::draw(glm::uvec2 const &drawable_size) const {
 }
 
 
-
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 PPUTileProgram::PPUTileProgram() {

@@ -2,7 +2,6 @@
 
 /*
  * PPU466 -- a very limited graphics system [loosely] based on the NES's PPU.
- * 
  *
  */
 
@@ -19,10 +18,6 @@ struct PPU466 {
 	// pass the size of the current framebuffer in pixels so it knows how to scale itself
 	void draw(glm::uvec2 const &drawable_size) const;
 
-	//for debugging, you can ask the PPU to draw its current tiles, palettes, etc:
-	// pass the size of the current framebuffer in pixels so it knows how to scale itself
-	//someday, maybe: void draw_DEBUG_overlay(glm::uvec2 drawable_size) const;
-
 	//--------------------------------------------------------------
 	//Set the values below to control the PPU's drawing:
 
@@ -34,30 +29,30 @@ struct PPU466 {
 	};
 
 	//Background Color:
-	// The PPU clears the screen to the background color before other drawing takes place:
-	// the screen is cleared to this color before any other drawing takes place
+	// The PPU clears the screen to the background color before other drawing takes place.
 	glm::u8vec3 background_color = glm::u8vec3(0x00, 0x00, 0x00);
 
 	//Palette:
-	// The PPU uses 4-bit indexed color.
-	// thus, a color palette has four entries:
+	// The PPU uses 2-bit indexed color;
+	// thus, a color palette has four entries.
 	typedef std::array< glm::u8vec4, 4 > Palette;
-	// for a "true NES" experience, you should set:
-	//   color 0 to fully transparent
-	//   and color 1-3 to fully opaque.
+	// Each color in a Palette can be any RGBA color.
+	// For a "true NES" experience, you should set:
+	//   color 0 to fully transparent (a = 0)
+	//   and color 1-3 to fully opaque (a = 0xff)
 
 	//Palette Table:
 	// The PPU stores 8 palettes for use when drawing tiles:
 	std::array< Palette, 8 > palette_table;
 
 	//Tile:
-	// The PPU uses 8x8 4-bit indexed-color tiles:
+	// The PPU uses 8x8 2-bit indexed-color tiles:
 	// each tile is stored as two 8x8 "bit plane" images
 	//   each bit-plane image is stored in rows from bottom-to-top
 	//   each bit in a row corresponds to a pixel in increasing order:
 	//      [ b0 b1 b2 b3 b4 b5 b6 b7 ]
 	//
-	// For eaxmple, to read the color index at pixel (2,7):
+	// For example, to read the color index at pixel (2,7):
 	//  bit0_at_2_7 = (tile.bit0[7] >> 2) & 1;
 	//  bit1_at_2_7 = (tile.bit1[7] >> 2) & 1;
 	//  color_index_at_2_7 = (bit1_at_2_7 << 1) | bit0_at_2_7;
@@ -73,7 +68,8 @@ struct PPU466 {
 	std::array< Tile, 16 * 16 > tile_table;
 
 	//Background Layer:
-	// The PPU's background layer is made of 64x60 tiles (512 x 480 pixels):
+	// The PPU's background layer is made of 64x60 tiles (512 x 480 pixels).
+	// This is twice the size of the screen, to support scrolling.
 	enum : uint32_t {
 		BackgroundWidth = 64,
 		BackgroundHeight = 60
