@@ -8,12 +8,14 @@ This name captures the goal of having the various parts and functions relatively
 Here is a quick overview of what is included. For further information, ☺read the code☺ !
 - Base code (files you will certainly edit):
 	- [`main.cpp`](main.cpp) creates the game window and contains the main loop. Set your window title, size, and initial Mode here.
-	- [`PongMode.hpp`](PongMode.hpp), [`PongMode.cpp`](PongMode.cpp) declaration+definition for a basic pong game. You'll probably rename this and build your own mode on it.
+	- [`PlayMode.hpp`](PlayMode.hpp), [`PlayMode.cpp`](PlayMode.cpp) declaration+definition for a basic PPU demonstration. You'll probably build your game on it.
 	- [`Jamfile`](Jamfile) responsible for telling FTJam how to build the project. Change this when you add additional .cpp files and to change your runtime executable's name.
 	- [`.gitignore`](.gitignore) ignores generated files. You will need to change it if your executable name changes. (If you find yourself changing it to ignore, e.g., your editor's swap files you should probably, instead, be investigating making this change in the global git configuration.)
 - Useful code (files you should investigate, but probably won't change):
+	- [`PPU466.hpp`](PPU466.hpp), [`PPU466.cpp`](PPU466.cpp) very restricted sprite + background drawing class.
+	- [`read_write_chunk.hpp`](read_write_chunk.hpp) templated helpers for reading chunk-based binary formats.
+	- [`Load.hpp`](Load.hpp), [`Load.cpp`](Load.cpp) asset loading wrapper; load things in the global scope but not until after an OpenGL context is established.
 	- [`Mode.hpp`](Mode.hpp), [`Mode.cpp`](Mode.cpp) base class for modes (things that recieve events and draw).
-	- [`ColorTextureProgram.hpp`](ColorTextureProgram.hpp), [`ColorTextureProgram.cpp`](ColorTextureProgram.cpp) example OpenGL shader program, wrapped in a helper class.
 	- [`gl_compile_program.hpp`](gl_compile_program.hpp), [`gl_compile_program.cpp`](gl_compile_program.cpp) helper function to compiles OpenGL shader programs.
 	- [`load_save_png.hpp`](load_save_png.hpp), [`load_save_png.cpp`](load_save_png.cpp) helper functions to load and save PNG images.
 	- [`GL.hpp`](GL.hpp), [`GL.cpp`](GL.cpp) includes OpenGL 3.3 prototypes without the namespace pollution of (e.g.) SDL's OpenGL header; on Windows, deals with some function pointer wrangling.
@@ -22,7 +24,6 @@ Here is a quick overview of what is included. For further information, ☺read t
 - Here be dragons (files you probably don't need to look at):
 	- [`make-GL.py`](make-GL.py) does what it says on the tin. Included in case you are curious. You won't need to run it.
 	- [`glcorearb.h`](glcorearb.h) used by `make-GL.py` to produce `GL.*pp`
-
 
 
 ## Build Instructions
