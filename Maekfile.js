@@ -323,6 +323,7 @@ function init_maek() {
 		const task = async () => {
 			await updateTargets([srcFile], `${task.label}`);
 			try {
+				await fsPromises.mkdir(path.dirname(dstFile), { recursive: true });
 				await fsPromises.copyFile(srcFile, dstFile);
 			} catch (e) {
 				throw new BuildError(`Failed to copy '${srcFile}' to '${dstFile}':${e}`);
