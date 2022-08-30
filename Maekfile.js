@@ -132,7 +132,7 @@ maek.RULE([':run'], [game_exe], [
 function init_maek() {
 	//standard libraries:
 	const path = require('path').posix; //NOTE: expect posix-style paths even on windows
-	const fsPromises = require('fs/promises');
+	const fsPromises = require('fs').promises;
 	const fs = require('fs');
 
 	//make it so that all paths/commands are relative to Maekfile.js:
