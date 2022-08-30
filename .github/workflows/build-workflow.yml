@@ -6,7 +6,7 @@ on:
 
 env:
   BASE_NAME: game1
-  NEST_LIBS_VERSION: v0.7
+  NEST_LIBS_VERSION: v0.10
 
 jobs:
   build-windows:
@@ -27,8 +27,8 @@ jobs:
         shell: cmd
         run: |
           dir/w
-          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-          ..\nest-libs\windows\jam\jam.exe JAM_TOOLSET=VISUALC -j3 -q && copy README.md dist
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+          node Maekfile.js -q && copy README.md dist
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
@@ -70,9 +70,9 @@ jobs:
         shell: bash
         run: |
           sudo apt-get update
-          sudo apt-get install ftjam libgl-dev
+          sudo apt-get install libgl-dev
           ls
-          jam -j3 -q && cp README.md dist
+          node Maekfile.js -q && cp README.md dist
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
@@ -113,9 +113,8 @@ jobs:
       - name: Build Code
         shell: bash
         run: |
-          brew install ftjam
           ls
-          jam -j3 -q && cp README.md dist
+          node Maekfile.js -q && cp README.md dist
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:

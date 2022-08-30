@@ -53,21 +53,10 @@ if (maek.OS === "windows") {
 		`-I${NEST_LIBS}/libpng/include`
 	);
 	maek.options.LINKLibs.push(
-		`/L${NEST_LIBS}/SDL2/lib`, 
-		`-lSDL2`,`-lm`,`-liconv`,
-		`-framework`, `CoreAudio`,
-		`-framework`, `AudioToolbox`,
-		`-weak_framework`, `CoreHaptics`,
-		`-weak_framework`, `GameController`,
-		`-framework`, `ForceFeedback`,
-		`-lobjc`,
-		`-framework`, `CoreVideo`,
-		`-framework`, `Cocoa`,
-		`-framework`, `Carbon`,
-		`-framework`, `IOKit`,
-		`-framework`, `OpenGL`,
-		`/L${NEST_LIBS}/libpng/lib`, `-lpng`,
-		`/L${NEST_LIBS}/zlib/lib`, `-lz`,
+		//linker flags for nest libraries:
+		`-L${NEST_LIBS}/SDL2/lib`, `-lSDL2`, `-lm`,`-liconv`, `-framework`, `CoreAudio`, `-framework`, `AudioToolbox`, `-weak_framework`, `CoreHaptics`, `-weak_framework`, `GameController`, `-framework`, `ForceFeedback`, `-lobjc`, `-framework`, `CoreVideo`, `-framework`, `Cocoa`, `-framework`, `Carbon`, `-framework`, `IOKit`, `-framework`, `OpenGL`,
+		`-L${NEST_LIBS}/libpng/lib`, `-lpng`,
+		`-L${NEST_LIBS}/zlib/lib`, `-lz`
 	);
 }
 
