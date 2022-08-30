@@ -53,7 +53,7 @@ if (maek.OS === "windows") {
 	);
 	maek.options.LINKLibs.push(
 		//linker flags for nest libraries:
-		`-L${NEST_LIBS}/linux/SDL2/lib`, `-lSDL2`, `-lm`, `-ldl`, `-lasound`, `-lpthread`, `-lX11`, `-lXext`, `-lpthread`, `-lrt`, `-lGL`, //the output of sdl-config --static-libs
+		`-L${NEST_LIBS}/SDL2/lib`, `-lSDL2`, `-lm`, `-ldl`, `-lasound`, `-lpthread`, `-lX11`, `-lXext`, `-lpthread`, `-lrt`, `-lGL`, //the output of sdl-config --static-libs
 		`-L${NEST_LIBS}/libpng/lib`, `-lpng`,
 		`-L${NEST_LIBS}/zlib/lib`, `-lz`
 	);
