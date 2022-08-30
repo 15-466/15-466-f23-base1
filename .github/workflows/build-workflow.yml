@@ -28,8 +28,6 @@ jobs:
         shell: cmd
         run: |
           dir/w
-          dir/w ..
-          dir/w ..\nest-libs
           #call "C:\Program Files (x86)\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
           node Maekfile.js -q && copy README.md dist
       - name: Upload Artifact
@@ -117,8 +115,6 @@ jobs:
         shell: bash
         run: |
           ls
-          ls ..
-          ls ../nest-libs
           node Maekfile.js -q && cp README.md dist
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
