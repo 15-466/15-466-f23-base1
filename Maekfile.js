@@ -46,7 +46,16 @@ if (maek.OS === "windows") {
 } else if (maek.OS === "linux") {
 	maek.options.CPPFlags.push(
 		`-O2`, //optimize
-		"-I/usr/include/SDL2", "-D_REENTRANT" //SDL include flags
+		//include paths for nest libraries:
+		`-I${NEST_LIBS}/SDL2/include/SDL2`, `-D_THREAD_SAFE`, //the output of sdl-config --cflags
+		`-I${NEST_LIBS}/glm/include`,
+		`-I${NEST_LIBS}/libpng/include`
+	);
+	maek.options.LINKLibs.push(
+		//linker flags for nest libraries:
+		`-L${NEST_LIBS}/linux/SDL2/lib`, `-lSDL2`, `-lm`, `-ldl`, `-lasound`, `-lpthread`, `-lX11`, `-lXext`, `-lpthread`, `-lrt`, //the output of sdl-config --static-libs
+		`-L${NEST_LIBS}/libpng/lib`, `-lpng`,
+		`-L${NEST_LIBS}/zlib/lib`, `-lz`
 	);
 } else if (maek.OS === "macos") {
 	maek.options.CPPFlags.push(
@@ -58,7 +67,7 @@ if (maek.OS === "windows") {
 	);
 	maek.options.LINKLibs.push(
 		//linker flags for nest libraries:
-		`-L${NEST_LIBS}/SDL2/lib`, `-lSDL2`, `-lm`,`-liconv`, `-framework`, `CoreAudio`, `-framework`, `AudioToolbox`, `-weak_framework`, `CoreHaptics`, `-weak_framework`, `GameController`, `-framework`, `ForceFeedback`, `-lobjc`, `-framework`, `CoreVideo`, `-framework`, `Cocoa`, `-framework`, `Carbon`, `-framework`, `IOKit`, `-framework`, `OpenGL`,
+		`-L${NEST_LIBS}/SDL2/lib`, `-lSDL2`, `-lm`,`-liconv`, `-framework`, `CoreAudio`, `-framework`, `AudioToolbox`, `-weak_framework`, `CoreHaptics`, `-weak_framework`, `GameController`, `-framework`, `ForceFeedback`, `-lobjc`, `-framework`, `CoreVideo`, `-framework`, `Cocoa`, `-framework`, `Carbon`, `-framework`, `IOKit`, `-framework`, `OpenGL`, //the output of sdl-config --static-libs
 		`-L${NEST_LIBS}/libpng/lib`, `-lpng`,
 		`-L${NEST_LIBS}/zlib/lib`, `-lz`
 	);
@@ -193,7 +202,6 @@ function init_maek() {
 
 	if (OS === 'windows') {
 		DEFAULT_OPTIONS.CPP = ['cl.exe', '/nologo', '/EHsc', '/Z7', '/std:c++17', '/W4', '/WX', '/MD'];
-		//TODO: could embed manifest to set UTF8 codepage
 		DEFAULT_OPTIONS.LINK = ['link.exe', '/nologo', '/SUBSYSTEM:CONSOLE', '/DEBUG:FASTLINK', '/INCREMENTAL:NO'];
 	} else if (OS === 'linux') {
 		DEFAULT_OPTIONS.CPP = ['g++', '-std=c++17', '-Wall', '-Werror', '-g'];
