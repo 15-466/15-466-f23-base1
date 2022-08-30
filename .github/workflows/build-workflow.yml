@@ -73,7 +73,7 @@ jobs:
         shell: bash
         run: |
           sudo apt-get update
-          sudo apt-get install libgl-dev
+          sudo apt-get install libgl-dev libasound2-dev
           ls
           node Maekfile.js -q && cp README.md dist
       - name: Upload Artifact
