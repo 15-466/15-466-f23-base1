@@ -13,7 +13,7 @@ jobs:
     name: Build (Windows)
     runs-on: windows-latest
     steps:
-	  - uses: ilammy/msvc-dev-cmd@v1.4.1
+      - uses: ilammy/msvc-dev-cmd@v1.4.1
       - name: Checkout Code
         uses: actions/checkout@v2
         with:
