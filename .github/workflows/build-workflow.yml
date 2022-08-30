@@ -13,6 +13,7 @@ jobs:
     name: Build (Windows)
     runs-on: windows-latest
     steps:
+	  - uses: ilammy/msvc-dev-cmd@v1.4.1
       - name: Checkout Code
         uses: actions/checkout@v2
         with:
@@ -27,7 +28,9 @@ jobs:
         shell: cmd
         run: |
           dir/w
-          call "C:\Program Files (x86)\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+          dir/w ..
+          dir/w ..\nest-libs
+          #call "C:\Program Files (x86)\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
           node Maekfile.js -q && copy README.md dist
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
@@ -114,6 +117,8 @@ jobs:
         shell: bash
         run: |
           ls
+          ls ..
+          ls ../nest-libs
           node Maekfile.js -q && cp README.md dist
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
