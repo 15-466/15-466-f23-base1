@@ -20,31 +20,35 @@ const maek = init_maek();
 //-------------------------------------------------------------------
 //Read onward to discover how to configure Maek for your build!
 
+const NEST_LIBS = `../nest-libs/${maek.OS}`;
+
 //set compile flags (these can also be overridden per-task using the "options" parameter):
 if (maek.OS === "windows") {
-	const NEST_LIBS = "../nest-libs/windows";
 	maek.options.CPPFlags.push(
 		`/O2`, //optimize
 		//include paths for nest libraries:
-		`/I"${NEST_LIBS}/SDL2/include"`,
-		`/I"${NEST_LIBS}/glm/include"`,
-		`/I"${NEST_LIBS}/libpng/include"`,
+		`/I${NEST_LIBS}/SDL2/include`,
+		`/I${NEST_LIBS}/glm/include`,
+		`/I${NEST_LIBS}/libpng/include`,
 		//#disable a few warnings:
 		`/wd4146`, //-1U is still unsigned
-		`/wd4297`  //unforunately SDLmain is nothrow
+		`/wd4297`, //unforunately SDLmain is nothrow
+		`/wd4100`, //unreferenced formal parameter
+		`/wd4201`, //nameless struct/union
+		`/wd4611`  //interaction between setjmp and C++ object destruction
 	);
 	maek.options.LINKLibs.push(
-		`/LIBPATH:"${NEST_LIBS}/SDL2/lib"`, `SDL2main.lib`, `SDL2.lib`, `OpenGL32.lib`, `Shell32.lib`,
-		`/LIBPATH:"${NEST_LIBS}/libpng/lib"`, `libpng.lib`, `zlib.lib`,
+		`/LIBPATH:${NEST_LIBS}/SDL2/lib`, `SDL2main.lib`, `SDL2.lib`, `OpenGL32.lib`, `Shell32.lib`,
+		`/LIBPATH:${NEST_LIBS}/libpng/lib`, `libpng.lib`,
+		`/LIBPATH:${NEST_LIBS}/zlib/lib`, `zlib.lib`,
+		`/MANIFEST:EMBED`, `/MANIFESTINPUT:set-utf8-code-page.manifest`
 	);
 } else if (maek.OS === "linux") {
-	const NEST_LIBS = "../nest-libs/linux";
 	maek.options.CPPFlags.push(
 		`-O2`, //optimize
 		"-I/usr/include/SDL2", "-D_REENTRANT" //SDL include flags
 	);
 } else if (maek.OS === "macos") {
-	const NEST_LIBS = "../nest-libs/macos";
 	maek.options.CPPFlags.push(
 		`-O2`, //optimize
 		//include paths for nest libraries:
@@ -58,6 +62,17 @@ if (maek.OS === "windows") {
 		`-L${NEST_LIBS}/libpng/lib`, `-lpng`,
 		`-L${NEST_LIBS}/zlib/lib`, `-lz`
 	);
+}
+//use COPY to copy a file
+// 'COPY(from, to)'
+// from: file to copy from
+// to: file to copy to
+let copies = [
+	maek.COPY(`${NEST_LIBS}/SDL2/dist/README-SDL.txt`, `dist/README-SDL.txt`),
+	maek.COPY(`${NEST_LIBS}/libpng/dist/README-libpng.txt`, `dist/README-libpng.txt`),
+];
+if (maek.OS === 'windows') {
+	copies.push( maek.COPY(`${NEST_LIBS}/SDL2/dist/SDL2.dll`, `dist/SDL2.dll`) );
 }
 
 //call rules on the maek object to specify tasks.
@@ -93,8 +108,8 @@ const game_objs = [
 //returns exeFile: exeFileBase + a platform-dependant suffix (e.g., '.exe' on windows)
 const game_exe = maek.LINK(game_objs, 'dist/game');
 
-//set the default target to the game:
-maek.TARGETS = [game_exe];
+//set the default target to the game (and copy the readme files):
+maek.TARGETS = [game_exe, ...copies];
 
 //the '[targets =] RULE(targets, prerequisites[, recipe])' rule defines a Makefile-style task
 // targets: array of targets the task produces (can include both files and ':abstract targets')
@@ -277,6 +292,7 @@ function init_maek() {
 		}
 	};
 
+
 	//CHECK adds a task that checks targets exist (after prerequisites have been created):
 	// targets (array) are the things that get checked
 	// prerequisites (array) are the things that must be up-to-date before the check is done
@@ -299,7 +315,26 @@ function init_maek() {
 		}
 	};
 
+	//COPY adds a task that copies a file:
+	maek.COPY = (srcFile, dstFile) => {
+		if (typeof srcFile !== "string") throw new Error("COPY: from should be a single file.");
+		if (typeof dstFile !== "string") throw new Error("COPY: to should be a single file.");
 
+		const task = async () => {
+			await updateTargets([srcFile], `${task.label}`);
+			try {
+				await fsPromises.copyFile(srcFile, dstFile);
+			} catch (e) {
+				throw new BuildError(`Failed to copy '${srcFile}' to '${dstFile}':${e}`);
+			}
+		};
+
+		task.label = `COPY ${dstFile}`;
+
+		maek.tasks[dstFile] = task;
+
+		return dstFile;
+	};
 
 	//maek.CPP makes an object from a c++ source file:
 	// cppFile is the source file name

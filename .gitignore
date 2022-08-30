@@ -1,5 +1,6 @@
 objs/
 dist/README-SDL.txt
+dist/README-libpng.txt
 dist/game.ilk
 dist/game.pdb
 dist/SDL2.dll

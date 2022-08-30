@@ -8,8 +8,8 @@
 static GLuint gl_compile_shader(GLenum type, std::string const &source) {
 	GLuint shader = glCreateShader(type);
 	GLchar const *str = source.c_str();
-	GLint length = GLint(source.size());
-	glShaderSource(shader, 1, &str, &length);
+	GLint str_length = GLint(source.size());
+	glShaderSource(shader, 1, &str, &str_length);
 	glCompileShader(shader);
 	GLint compile_status = GL_FALSE;
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &compile_status);
