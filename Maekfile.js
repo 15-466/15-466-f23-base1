@@ -120,7 +120,7 @@ const game_exe = maek.LINK(game_objs, 'dist/game');
 //set the default target to the game (and copy the readme files):
 maek.TARGETS = [game_exe, ...copies];
 
-//the '[targets =] RULE(targets, prerequisites[, recipe])' rule defines a Makefile-style task
+//the 'RULE(targets, prerequisites[, recipe])' rule defines a Makefile-style task
 // targets: array of targets the task produces (can include both files and ':abstract targets')
 // prerequisites: array of targets the task waits on (can include both files and ':abstract targets')
 // recipe (optional): array of commands to run (where each command is an array [exe, arg1, arg0, ...])
