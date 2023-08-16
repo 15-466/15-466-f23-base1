@@ -24,6 +24,7 @@
 
 #include <functional>
 #include <stdexcept>
+#include <cstdint>
 
 enum LoadTag : uint32_t {
 	LoadTagEarly,
