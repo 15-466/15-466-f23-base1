@@ -24,6 +24,7 @@ Here is a quick overview of what is included. For further information, ☺read t
 - Here be dragons (files you probably don't need to look at):
 	- [`make-GL.py`](make-GL.py) does what it says on the tin. Included in case you are curious. You won't need to run it.
 	- [`glcorearb.h`](glcorearb.h) used by `make-GL.py` to produce `GL.*pp`
+	- [`set-utf8-code-page.manifest`](set-utf8-code-page.manifest) is added during linking on Windows to set the default codepage to UTF-8.
 
 
 ## Build Instructions
@@ -81,7 +82,7 @@ Here are a few worthwhile variations:
   $ node Maekfile.js -q -j1
 
 # Variation: run game if build succeeds:
-  $ node Maekfile.js && dist/pong
+  $ node Maekfile.js && dist/game
 
 # Variation: show commands being run (perhaps useful for debugging):
   $ node Maekfile.js -v
