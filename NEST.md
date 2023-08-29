@@ -41,15 +41,15 @@ Setup for your development environment should be relatively simple:
 
  0. (Optional) Make sure your system is set up to make it easy to use your favorite code editor and git from the command prompt. So much nicer than using a GUI.
  1. Install one of our target C++ compilers:
- 	- Linux: g++
+	- Linux: g++
 	- MacOS: clang++ (from XCode). From the terminal: `xcode-select --install`
 	- Windows: Visual Studio Community 2022
  2. Install [node](https://node.js):
-    - Linux: e.g. `sudo apt-get install node`
+	- Linux: e.g. `sudo apt-get install node`
 	- MacOS: e.g. `brew install node`
 	- Windows: [download from node's web page](https://nodejs.org/en/download/)
  3. Extract an appropriate [release of nest-libs](https://github.com/15-466/nest-libs/releases) to a sibling of this folder:
-    - Linux: https://github.com/15-466/nest-libs/releases/download/v0.12/nest-libs-linux-v0.12.tar.gz
+	- Linux: https://github.com/15-466/nest-libs/releases/download/v0.12/nest-libs-linux-v0.12.tar.gz
 	- MacOS: https://github.com/15-466/nest-libs/releases/download/v0.12/nest-libs-macos-v0.12.tar.gz
 	- Windows: https://github.com/15-466/nest-libs/releases/download/v0.12/nest-libs-windows-v0.12.zip
 
