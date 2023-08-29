@@ -88,13 +88,6 @@ if (maek.OS === 'windows') {
 // rules generally look like:
 //  output = maek.RULE_NAME(input [, output] [, {options}])
 
-//use CHECK to print a message when something is missing
-//'[targets =] CHECK(targets, prerequisites, message)'
-// targets: array of targets the task produces (can include both files and ':abstract targets')
-// prerequisites: array of things that must exist before manual task message is printed
-// message: message to print if targets don't exist
-//returns targets: the targets the rule produces
-
 //the '[objFile =] CPP(cppFile [, objFileBase] [, options])' compiles a c++ file:
 // cppFile: name of c++ file to compile
 // objFileBase (optional): base name object file to produce (if not supplied, set to options.objDir + '/' + cppFile without the extension)
