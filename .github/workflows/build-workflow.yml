@@ -6,7 +6,7 @@ on:
 
 env:
   BASE_NAME: game1
-  NEST_LIBS_VERSION: v0.12
+  NEST_LIBS_VERSION: v0.13
 
 jobs:
   build-windows:
